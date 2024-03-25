@@ -6,5 +6,4 @@
 <label for="">Slug</label>
 <input type="text" name="slug" value="{{ old('slug', $category->slug) }}">
 
-
 <button type="submit">Send</button>

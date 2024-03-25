@@ -18,38 +18,14 @@ class PostController extends Controller
      */
     public function index()
     {
+        // session()->forget('key');
+        // session(['key' => 'value']);
+        // session(['key2' => 'value2']);
         $posts = Post::paginate(2);
        
         return view('dashboard/post/index', compact('posts'));
 
-        // $post = Post::find(1)->delete();
-
-
-        // $post = $post->update(
-        //     [
-        //         'title' => 'test title new',
-        //         'slug' => 'test slug',
-        //         'content' => 'test content',
-        //         'category_id' => 1,
-        //         'description' => 'test description',
-        //         'posted' => 'not',
-        //         'image' => 'test image',
-        //     ]
-        // ); 
-
-        // dd($post->title);
-
-        // Post::create(
-        //     [
-        //         'title' => 'test title',
-        //         'slug' => 'test slug',
-        //         'content' => 'test content',
-        //         'category_id' => 1,
-        //         'description' => 'test description',
-        //         'posted' => 'not',
-        //         'image' => 'test image',
-        //     ]
-        // ); 
+       
     }
 
     /**
@@ -69,47 +45,9 @@ class PostController extends Controller
     public function store(StoreRequest $request)
     {
         Post::create($request->validated());
-        return to_route('post.index');
-
-        // $validated = Validator::make($request->all(),
-        //     [
-        //         'title' => 'required|min:5|max:500',
-        //         'slug' => 'required|min:5|max:500',
-        //         'content' => 'required|min:7',
-        //         'category_id' => 'required|integer',
-        //         'description' => 'required|min:7',
-        //         'posted' => 'required',
-        //     ]
-        // );
-
-        // dd($validated->fails());
-
-        // $request->validate([
-        //     'title' => 'required|min:5|max:500',
-        //     'slug' => 'required|min:5|max:500',
-        //     'content' => 'required|min:7',
-        //     'category_id' => 'required|integer',
-        //     'description' => 'required|min:7',
-        //     'posted' => 'required',
-        // ]);
+        return to_route('post.index')->with('status', 'Post created');
 
 
-
-        // dd(request()->get('title'));
-        // dd($request->all());
-        //   Post::create(
-        //     [
-        //         'title' => $request->all()['title'],
-        //         'slug' => $request->all()['slug'],
-        //         'content' => $request->all()['content'],
-        //         'category_id' => $request->all()['category_id'],
-        //         'description' => $request->all()['description'],
-        //         // 'image' => $request->all()['image'],
-        //     ]
-        // ); 
-
-
-        
     }
 
     /**
@@ -145,12 +83,12 @@ class PostController extends Controller
         // image
 
         $post->update($data);
-        return to_route('post.index');
+        return to_route('post.index')->with('status', 'Post updated');
     }
 
     public function destroy(Post $post)
     {
         $post->delete();
-        return to_route('post.index');
+        return to_route('post.index')->with('status', 'Post delete');
     }
 }
