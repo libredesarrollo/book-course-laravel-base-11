@@ -10,6 +10,8 @@ use App\Models\Category;
 use App\Models\Post;
 
 
+
+
 class PostController extends Controller
 {
     /**
@@ -26,10 +28,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        $categories = Category::pluck('id','title');
+        $categories = Category::pluck('id', 'title');
         $post = new Post();
 
-        return view('dashboard.post.create', compact('categories','post'));
+        return view('dashboard.post.create', compact('categories', 'post'));
     }
 
     /**
@@ -39,8 +41,6 @@ class PostController extends Controller
     {
         Post::create($request->validated());
         return to_route('post.index')->with('status', 'Post created');
-
-
     }
 
     /**
@@ -48,7 +48,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('dashboard/post/show',['post'=> $post]);
+        return view('dashboard/post/show', ['post' => $post]);
     }
 
     /**
@@ -65,13 +65,13 @@ class PostController extends Controller
      */
     public function update(PutRequest $request, Post $post)
     {
-        
+
         $data = $request->validated();
 
         // image
-        if(isset($data['image'])){
-            $data['image'] = $filename = time().'.'.$data['image']->extension();
-            $request->image->move(public_path('uploads/posts'),$filename);
+        if (isset($data['image'])) {
+            $data['image'] = $filename = time() . '.' . $data['image']->extension();
+            $request->image->move(public_path('uploads/posts'), $filename);
         }
         // image
 
