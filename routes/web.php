@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Middleware\UserAccessDashboardMiddleware;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -31,7 +31,8 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', UserAccessDashbo
 });
 Route::group(['prefix' => 'blog'], function () {
     Route::get('', [BlogController::class, 'index'])->name('blog.index');
-    Route::get('detail/{post}', [BlogController::class, 'show'])->name('blog.show');
+    Route::get('detail/{id}', [BlogController::class, 'show'])->name('blog.show');
+    // Route::get('detail/{post}', [BlogController::class, 'show'])->name('blog.show');
 });
 
 

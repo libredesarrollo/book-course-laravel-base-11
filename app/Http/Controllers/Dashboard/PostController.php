@@ -8,9 +8,7 @@ use App\Http\Requests\Post\StoreRequest;
 
 use App\Models\Category;
 use App\Models\Post;
-
-
-
+use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
 {
@@ -75,6 +73,7 @@ class PostController extends Controller
         }
         // image
 
+        Cache::forget('post_show_'.$post->id);
         $post->update($data);
         return to_route('post.index')->with('status', 'Post updated');
     }
