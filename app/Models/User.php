@@ -37,6 +37,10 @@ class User extends Authenticatable
         return $this->rol == 'admin';
     }
 
+    function posts() {
+        return $this->hasMany(Post::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *

@@ -37,7 +37,8 @@ class PostSeeder extends Seeder
                     'content' => '<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam, tempora voluptatem. Eligendi animi deleniti exercitationem sit dolor aspernatur quasi molestiae?</p>',
                     'description' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam, tempora voluptatem.',
                     'posted' => 'yes',
-                    'category_id' => $c->id
+                    'category_id' => $c->id,
+                    'user_id' => 1
                 ]
             );
         }

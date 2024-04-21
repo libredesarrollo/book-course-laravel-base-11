@@ -8,7 +8,9 @@ use App\Http\Requests\Post\StoreRequest;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -17,7 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate(2);
+        $posts = Post::paginate(10);
         return view('dashboard/post/index', compact('posts'));
     }
 
@@ -26,6 +28,7 @@ class PostController extends Controller
      */
     public function create()
     {
+
         $categories = Category::pluck('id', 'title');
         $post = new Post();
 
@@ -37,7 +40,12 @@ class PostController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        Post::create($request->validated());
+
+        
+
+        // Post::create($request->validated());
+        $post = new Post($request->validated());
+        auth()->user()->posts()->save($post);
         return to_route('post.index')->with('status', 'Post created');
     }
 
@@ -54,6 +62,26 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+
+
+        // dd(Gate::check('create', $post));
+        // dd(Gate::any(['create','update'], $post));
+        // dd(Gate::none(['create','update'], $post));
+        // dd(auth()->user()->can('create', $post));
+        // dd(auth()->user()->cannot('create', $post));
+        
+
+        // Gate::allowIf(fn(User $user) => $user->id < 0);
+
+        // dd(Gate::inspect('update', $post)->message());
+        // if (!Gate::allows('update', $post)) {
+        // $res = Gate::inspect('update', $post);
+        // if (!$res->allowed()) {
+        //     return abort(403, $res->message());
+        // }
+
+        Gate::authorize('update', $post);
+
         $categories = Category::pluck('id', 'title');
         return view('dashboard.post.edit', compact('categories', 'post'));
     }
@@ -64,6 +92,10 @@ class PostController extends Controller
     public function update(PutRequest $request, Post $post)
     {
 
+        if (!Gate::allows('update', $post)) {
+            return abort(403);
+        }
+
         $data = $request->validated();
 
         // image
@@ -73,13 +105,16 @@ class PostController extends Controller
         }
         // image
 
-        Cache::forget('post_show_'.$post->id);
+        Cache::forget('post_show_' . $post->id);
         $post->update($data);
         return to_route('post.index')->with('status', 'Post updated');
     }
 
     public function destroy(Post $post)
     {
+        if (!Gate::allows('delete', $post)) {
+            return abort(403);
+        }
         $post->delete();
         return to_route('post.index')->with('status', 'Post delete');
     }
