@@ -2,8 +2,9 @@
 
 @section('content')
 
-    <a class="btn btn-primary my-3" href="{{ route('post.create') }}" target="blank">Create</a>
-
+    @can('editor.post.create')
+        <a class="btn btn-primary my-3" href="{{ route('post.create') }}" target="blank">Create</a>
+    @endcan
     <table class="table">
         <thead>
             <tr>
@@ -42,12 +43,17 @@
                     </td>
                     <td>
                         <a class="btn btn-success mt-2" href="{{ route('post.show',$p) }}">Show</a>
-                        <a class="btn btn-success mt-2" href="{{ route('post.edit',$p) }}">Edit</a>
+
+                        @can('editor.post.update')
+                            <a class="btn btn-success mt-2" href="{{ route('post.edit',$p) }}">Edit</a>
+                        @endcan
+                        @can('editor.post.destroy')
                         <form action="{{ route('post.destroy', $p) }}" method="post">
                             @method('DELETE')
                             @csrf
                             <button class="btn btn-danger mt-2" type="submit">Delete</button>
                         </form>
+                        @endcan
                     </td>
                 </tr>
             @endforeach

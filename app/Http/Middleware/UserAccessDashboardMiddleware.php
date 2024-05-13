@@ -11,10 +11,14 @@ class UserAccessDashboardMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->isAdmin()){
+
+        // if(auth()->user()->isAdmin()){
+        //     return $next($request);
+        // }
+        if (auth()->user()->accessDashboard()) {
             return $next($request);
         }
-        
-        return redirect('/');
+
+        // return redirect('/');
     }
 }

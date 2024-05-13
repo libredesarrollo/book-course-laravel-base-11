@@ -11,6 +11,8 @@ class StoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        
+        // return auth()->user()->hasPermissionTo('editor.post.create');
         return true;
     }
 

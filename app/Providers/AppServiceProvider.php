@@ -22,5 +22,11 @@ class AppServiceProvider extends ServiceProvider
         // Gate::define('update-post', function ($user, $post) {
         //     return $user->id == $post->user_id;
         // });
+        Gate::define('update-view-user-admin', function ($user, $userParams, $permissionName) {
+            return ($user->hasRole('Admin') || !$userParams->hasRole('Admin')) && auth()->user()->hasPermissionTo($permissionName);
+        });
+        Gate::define('is-admin', function ($user) {
+            return $user->hasRole('Admin');
+        });
     }
 }

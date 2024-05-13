@@ -19,6 +19,11 @@ class PostController extends Controller
      */
     public function index()
     {
+    
+        if(!auth()->user()->hasPermissionTo('editor.post.index')){
+            return abort(403);
+        }
+
         $posts = Post::paginate(10);
         return view('dashboard/post/index', compact('posts'));
     }
@@ -28,6 +33,10 @@ class PostController extends Controller
      */
     public function create()
     {
+
+        if(!auth()->user()->hasPermissionTo('editor.post.create')){
+            return abort(403);
+        }
 
         $categories = Category::pluck('id', 'title');
         $post = new Post();
@@ -41,7 +50,9 @@ class PostController extends Controller
     public function store(StoreRequest $request)
     {
 
-        
+        if(!auth()->user()->hasPermissionTo('editor.post.create')){
+            return abort(403);
+        }
 
         // Post::create($request->validated());
         $post = new Post($request->validated());
@@ -63,6 +74,9 @@ class PostController extends Controller
     public function edit(Post $post)
     {
 
+        if(!auth()->user()->hasPermissionTo('editor.post.update')){
+            return abort(403);
+        }
 
         // dd(Gate::check('create', $post));
         // dd(Gate::any(['create','update'], $post));
@@ -80,7 +94,7 @@ class PostController extends Controller
         //     return abort(403, $res->message());
         // }
 
-        Gate::authorize('update', $post);
+        // Gate::authorize('update', $post);
 
         $categories = Category::pluck('id', 'title');
         return view('dashboard.post.edit', compact('categories', 'post'));
@@ -92,9 +106,13 @@ class PostController extends Controller
     public function update(PutRequest $request, Post $post)
     {
 
-        if (!Gate::allows('update', $post)) {
+        if(!auth()->user()->hasPermissionTo('editor.post.update')){
             return abort(403);
         }
+
+        // if (!Gate::allows('update', $post)) {
+        //     return abort(403);
+        // }
 
         $data = $request->validated();
 
@@ -112,9 +130,13 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        if (!Gate::allows('delete', $post)) {
+        if(!auth()->user()->hasPermissionTo('editor.post.destroy')){
             return abort(403);
         }
+
+        // if (!Gate::allows('delete', $post)) {
+        //     return abort(403);
+        // }
         $post->delete();
         return to_route('post.index')->with('status', 'Post delete');
     }

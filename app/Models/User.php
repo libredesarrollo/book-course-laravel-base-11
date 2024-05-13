@@ -6,10 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -33,12 +35,21 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function isAdmin(): bool{
-        return $this->rol == 'admin';
+    // public function isAdmin(): bool{
+    //     return $this->rol == 'admin';
+    // }
+
+    public function accessDashboard(): bool{
+        // return $this->rol == 'admin';
+        return $this->hasRole('Editor') || $this->hasRole('Admin');
     }
 
     function posts() {
         return $this->hasMany(Post::class);
+    }
+
+    public function setPasswordAttribute($value) {
+        $this->attributes['password'] = Hash::make($value);
     }
 
     /**

@@ -1,8 +1,9 @@
 @extends('dashboard.master')
 
 @section('content')
-
-    <a class="btn btn-primary my-3" href="{{ route('category.create') }}" target="blank">Create</a>
+    @can('editor.category.create')
+        <a class="btn btn-primary my-3" href="{{ route('category.create') }}" target="blank">Create</a>
+    @endcan
 
     <table class="table">
         <thead>
@@ -17,7 +18,7 @@
                     Options
                 </th>
             </tr>
-            
+
         </thead>
         <tbody>
             @foreach ($categories as $c)
@@ -29,13 +30,17 @@
                         {{ $c->title }}
                     </td>
                     <td>
-                        <a class="btn btn-success mt-2" href="{{ route('category.show',$c) }}">Show</a>
-                        <a class="btn btn-success mt-2" href="{{ route('category.edit',$c) }}">Edit</a>
-                        <form action="{{ route('category.destroy', $c) }}" method="post">
-                            @method('DELETE')
-                            @csrf
-                            <button class="btn btn-danger mt-2" type="submit">Delete</button>
-                        </form>
+                        <a class="btn btn-success mt-2" href="{{ route('category.show', $c) }}">Show</a>
+                        @can('editor.category.update')
+                            <a class="btn btn-success mt-2" href="{{ route('category.edit', $c) }}">Edit</a>
+                        @endcan
+                        @can('editor.category.destroy')
+                            <form action="{{ route('category.destroy', $c) }}" method="post">
+                                @method('DELETE')
+                                @csrf
+                                <button class="btn btn-danger mt-2" type="submit">Delete</button>
+                            </form>
+                        @endcan
                     </td>
                 </tr>
             @endforeach
@@ -43,5 +48,4 @@
     </table>
     <div class="mt-2"></div>
     {{ $categories->links() }}
-
 @endsection
