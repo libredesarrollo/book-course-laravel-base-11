@@ -25,6 +25,11 @@
                             {{ __('Category') }}
                         </x-nav-link>
                     @endcan
+                    @can('editor.tag.index')
+                        <x-nav-link :href="route('tag.index')" :active="request()->routeIs('tag.index')">
+                            {{ __('Tag') }}
+                        </x-nav-link>
+                    @endcan
                     @if (auth()->user()->hasRole('Admin'))
                         <x-nav-link :href="route('role.index')" :active="request()->routeIs('role.index')">
                             {{ __('Role') }}
@@ -110,6 +115,11 @@
             @can('editor.category.index')
                 <x-responsive-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
                     {{ __('Category') }}
+                </x-responsive-nav-link>
+            @endcan
+            @can('editor.tag.index')
+                <x-responsive-nav-link :href="route('tag.index')" :active="request()->routeIs('tag.index')">
+                    {{ __('Tag') }}
                 </x-responsive-nav-link>
             @endcan
 

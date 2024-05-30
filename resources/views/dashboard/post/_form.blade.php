@@ -26,6 +26,15 @@
     <option {{ old('posted',$post->posted) == 'yes' ? 'selected' : '' }} value="yes">Yes</option>
 </select>
 
+<label for="">Tags</label>
+<select class='form-control' multiple name="tags_id[]">
+    @foreach ($tags as $name => $id)
+        {{-- <option {{ in_array($id, old('tags_id') ?: $post->tags->pluck('id')->toArray()) ? 'selected' : '' }} value="{{ $id }}">{{ $name }} --}}
+            <option {{ in_array($id, old('tags_id', $post->tags->pluck('id')->toArray())) ? 'selected' : '' }} value="{{ $id }}">{{ $name }}
+        </option>
+    @endforeach
+</select>
+
 @if (isset($task) && $task == 'edit')    
     <label for="">Image</label>
     <input class='form-control' type="file" name="image">

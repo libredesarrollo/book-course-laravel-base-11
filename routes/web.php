@@ -24,6 +24,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', UserAccessDashbo
     Route::resources([
         'post' => App\Http\Controllers\Dashboard\PostController::class,
         'category' => App\Http\Controllers\Dashboard\CategoryController::class,
+        'tag' => App\Http\Controllers\Dashboard\TagController::class,
         'role' => App\Http\Controllers\Dashboard\RoleController::class,
         'permission' => App\Http\Controllers\Dashboard\PermissionController::class,
         'user' => App\Http\Controllers\Dashboard\UserController::class,
