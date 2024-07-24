@@ -13,7 +13,7 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('dashboard.dashboard') }}
                     </x-nav-link>
                     @can('editor.post.index')
                         <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')">
@@ -22,25 +22,25 @@
                     @endcan
                     @can('editor.category.index')
                         <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
-                            {{ __('Category') }}
+                            {{ __('dashboard.category') }}
                         </x-nav-link>
                     @endcan
                     @can('editor.tag.index')
                         <x-nav-link :href="route('tag.index')" :active="request()->routeIs('tag.index')">
-                            {{ __('Tag') }}
+                            {{ __('dashboard.tag') }}
                         </x-nav-link>
                     @endcan
                     @if (auth()->user()->hasRole('Admin'))
                         <x-nav-link :href="route('role.index')" :active="request()->routeIs('role.index')">
-                            {{ __('Role') }}
+                            {{ __('dashboard.role') }}
                         </x-nav-link>
                         <x-nav-link :href="route('permission.index')" :active="request()->routeIs('permission.index')">
-                            {{ __('Permission') }}
+                            {{ __('dashboard.permission') }}
                         </x-nav-link>
                     @endif
                     @can('editor.user.index')
                         <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
-                            {{ __('User') }}
+                            {{ __('dashboard.user') }}
                         </x-nav-link>
                     @endcan
                 </div>
@@ -104,7 +104,7 @@
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('dashboard.dashboard') }}
             </x-responsive-nav-link>
 
             @can('editor.post.index')
@@ -114,27 +114,27 @@
             @endcan
             @can('editor.category.index')
                 <x-responsive-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
-                    {{ __('Category') }}
+                    {{ __('dashboard.category') }}
                 </x-responsive-nav-link>
             @endcan
             @can('editor.tag.index')
                 <x-responsive-nav-link :href="route('tag.index')" :active="request()->routeIs('tag.index')">
-                    {{ __('Tag') }}
+                    {{ __('dashboard.tag') }}
                 </x-responsive-nav-link>
             @endcan
 
             @if (auth()->user()->hasRole('Admin'))
                 <x-responsive-nav-link :href="route('role.index')" :active="request()->routeIs('role.index')">
-                    {{ __('Role') }}
+                    {{ __('dashboard.role') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('permission.index')" :active="request()->routeIs('permission.index')">
-                    {{ __('Permission') }}
+                    {{ __('dashboard.permission') }}
                 </x-responsive-nav-link>
             @endif
 
             @can('editor.user.index')
                 <x-responsive-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
-                    {{ __('User') }}
+                    {{ __('dashboard.user') }}
                 </x-responsive-nav-link>
             @endcan
         </div>

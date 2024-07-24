@@ -14,6 +14,7 @@
                 <th>
                     Title
                 </th>
+             
                 <th>
                     Options
                 </th>
@@ -29,6 +30,7 @@
                     <td>
                         {{ $c->title }}
                     </td>
+                
                     <td>
                         <a class="btn btn-success mt-2" href="{{ route('category.show', $c) }}">Show</a>
                         @can('editor.category.update')

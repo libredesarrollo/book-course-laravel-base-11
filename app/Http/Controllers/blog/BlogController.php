@@ -5,6 +5,7 @@ namespace App\Http\Controllers\blog;
 use App\Http\Controllers\Controller;
 
 use App\Models\Post;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Support\Facades\Cache;
 
 class BlogController extends Controller
@@ -27,8 +28,18 @@ class BlogController extends Controller
         //     return $cacheView;
         // }
 
+
+
+
         return cache()->rememberForever('post_show_' . $id, function () use ($id) {
             $post = Post::with('category')->find($id);
+            SEOTools::setTitle($post->title);
+            SEOTools::setDescription($post->description);
+            SEOTools::opengraph()->setUrl('http://current.url.com');
+            // SEOTools::setCanonical('https://codecasts.com.br/lesson');
+            SEOTools::opengraph()->addProperty('type', 'articles');
+            SEOTools::twitter()->setSite('@LibreDesarrollo');
+            // SEOTools::jsonLd()->addImage('https://codecasts.com.br/img/logo.jpg');
             return view('blog.show', ['post' => $post])->render();
         });
 

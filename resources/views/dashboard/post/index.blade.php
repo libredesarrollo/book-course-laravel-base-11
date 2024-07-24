@@ -5,6 +5,10 @@
     @can('editor.post.create')
         <a class="btn btn-primary my-3" href="{{ route('post.create') }}" target="blank">Create</a>
     @endcan
+
+    {{__('dashboard.welcome',['name' => ucfirst('andres')])}}
+    {{__('dashboard.welcome',['name' => 'andres'])}}
+
     <table class="table">
         <thead>
             <tr>
@@ -12,16 +16,16 @@
                     Id
                 </th>
                 <th>
-                    Title
+                    {{ __('dashboard.title') }}
                 </th>
                 <th>
-                    Posted
+                    {{ __('dashboard.posted') }}
                 </th>
                 <th>
-                    Category
+                    {{ __('dashboard.category') }}
                 </th>
                 <th>
-                    Options
+                    {{ __('dashboard.options') }}
                 </th>
             </tr>
             
