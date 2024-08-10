@@ -18,7 +18,7 @@ class PutRequest extends FormRequest
 
             return [
                 'name' => 'required|min:5|max:500',
-                'email' => 'required|min:5|max:500|unique:users,email,'.$this->route('user')->id,
+                'email' => 'required|min:5|max:500|email|unique:users,email,'.$this->route('user')->id,
                 'password' => ['required', 'confirmed', Rules\Password::default()
                     ::min(8)
                     ->letters()

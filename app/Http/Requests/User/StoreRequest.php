@@ -17,7 +17,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => 'required|min:5|max:500',
-            'email' => 'required|min:5|max:500|unique:users',
+            'email' => 'required|min:5|max:500|unique:users|email',
             'password' => ['required', 'confirmed', Rules\Password::default()
                 ::min(8)
                 ->letters()

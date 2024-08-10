@@ -11,12 +11,14 @@ class BlogController extends Controller
 {
     function index()
     {
-        $posts = Post::paginate(2);
-        return view('blog.index', compact('posts'));
+        // $posts = Post::paginate(2);
+         return view('blog.index', ['posts' => 
+         Post::paginate(2)]);
+        // return view('blog.index', ['posts' => Post::simplePaginate(2)]);
     }
 
-    // function show(Post $post)
-    function show(int $id)
+    function show(Post $post)
+    // function show(int $id)
     {
 
         // if (Cache::has('post_show_' . $post->id)) {
@@ -27,6 +29,11 @@ class BlogController extends Controller
         //     return $cacheView;
         // }
 
+        // para las pruebas
+        // return view('blog.show', ['post' => $post]);
+
+        // para la implementacion
+        $id = $post->id;
         return cache()->rememberForever('post_show_' . $id, function () use ($id) {
             $post = Post::with('category')->find($id);
             return view('blog.show', ['post' => $post])->render();
@@ -34,6 +41,6 @@ class BlogController extends Controller
 
 
 
-        //return view('blog.show', ['post' => $post]);
+        //
     }
 }

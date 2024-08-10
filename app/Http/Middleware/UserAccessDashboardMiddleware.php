@@ -19,6 +19,6 @@ class UserAccessDashboardMiddleware
             return $next($request);
         }
 
-        // return redirect('/');
+        return redirect('/');
     }
 }
