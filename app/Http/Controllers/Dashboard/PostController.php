@@ -8,9 +8,9 @@ use App\Http\Requests\Post\StoreRequest;
 
 use App\Models\Category;
 use App\Models\Post;
-use App\Models\User;
+use App\Models\Tag;
+
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -19,12 +19,9 @@ class PostController extends Controller
      */
     public function index()
     {
-    
-        if(!auth()->user()->hasPermissionTo('editor.post.index')){
-            return abort(403);
-        }
 
-        $posts = Post::paginate(10);
+        $posts = Post::with('category')->paginate(10);
+
         return view('dashboard/post/index', compact('posts'));
     }
 
@@ -39,9 +36,10 @@ class PostController extends Controller
         }
 
         $categories = Category::pluck('id', 'title');
+        $tags = Tag::pluck('id', 'name');
         $post = new Post();
 
-        return view('dashboard.post.create', compact('categories', 'post'));
+        return view('dashboard.post.create', compact('categories', 'post', 'tags'));
     }
 
     /**
@@ -56,6 +54,7 @@ class PostController extends Controller
 
         // Post::create($request->validated());
         $post = new Post($request->validated());
+        $post->tags()->sync($request->tags_id);
         auth()->user()->posts()->save($post);
         return to_route('post.index')->with('status', 'Post created');
     }
@@ -97,7 +96,8 @@ class PostController extends Controller
         // Gate::authorize('update', $post);
 
         $categories = Category::pluck('id', 'title');
-        return view('dashboard.post.edit', compact('categories', 'post'));
+        $tags = Tag::pluck('id', 'name');
+        return view('dashboard.post.edit', compact('categories', 'post','tags'));
     }
 
     /**
@@ -125,6 +125,7 @@ class PostController extends Controller
 
         Cache::forget('post_show_' . $post->id);
         $post->update($data);
+        $post->tags()->sync($request->tags_id);
         return to_route('post.index')->with('status', 'Post updated');
     }
 

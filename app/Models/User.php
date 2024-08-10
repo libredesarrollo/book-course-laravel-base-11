@@ -39,16 +39,24 @@ class User extends Authenticatable
     //     return $this->rol == 'admin';
     // }
 
-    public function accessDashboard(): bool{
+    public function accessDashboard(): bool
+    {
         // return $this->rol == 'admin';
         return $this->hasRole('Editor') || $this->hasRole('Admin');
     }
 
-    function posts() {
+    function posts()
+    {
         return $this->hasMany(Post::class);
     }
 
-    public function setPasswordAttribute($value) {
+    function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    public function setPasswordAttribute($value)
+    {
         $this->attributes['password'] = Hash::make($value);
     }
 

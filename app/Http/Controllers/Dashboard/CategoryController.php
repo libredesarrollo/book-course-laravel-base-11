@@ -17,7 +17,15 @@ class CategoryController extends Controller
             return abort(403);
         }
 
-        $categories = Category::paginate(2);
+        // $categories = Category::with('posts')->paginate(10);
+         $categories = Category::paginate(10);
+
+// $categories = Category::with('posts:id,title')->paginate(10);
+// $categories = Category::with(['posts' => function($query){
+//     // $query->where('id',1);
+//     // $query->select('id','title');
+//     $query->select('content');
+// }])->paginate(10);
         return view('dashboard/category/index', compact('categories'));
     }
 
