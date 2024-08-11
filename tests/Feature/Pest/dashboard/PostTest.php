@@ -115,6 +115,7 @@ test('test create post invalid', function () {
 
 
 test('test edit get', function () {
+    User::factory(3)->create();
     Category::factory(10)->create();
     Post::factory(1)->create();
     $post = Post::first();
@@ -142,6 +143,7 @@ test('test edit get', function () {
 
 test('test edit put', function () {
 
+    User::factory(3)->create();
     Category::factory(10)->create();
     Post::factory(1)->create();
     $post = Post::first();
@@ -163,7 +165,7 @@ test('test edit put', function () {
 });
 test('test edit put invalid', function () {
 
-
+    User::factory(3)->create();
     Category::factory(10)->create();
     Post::factory(1)->create();
     $post = Post::first();
@@ -193,7 +195,8 @@ test('test edit put invalid', function () {
 });
 
 test('test destroy', function () {
-
+    
+    User::factory(3)->create();
     Category::factory(10)->create();
     Post::factory(1)->create();
     $post = Post::first();

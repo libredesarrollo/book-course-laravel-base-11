@@ -130,6 +130,7 @@ class PostTest extends TestCase
     }
     function test_edit_get()
     {
+        User::factory(3)->create();
         Category::factory(10)->create();
         Post::factory(1)->create();
         $post = Post::first();
@@ -156,6 +157,7 @@ class PostTest extends TestCase
 
     function test_edit_put()
     {
+        User::factory(3)->create();
         Category::factory(10)->create();
         Post::factory(1)->create();
         $post = Post::first();
@@ -178,6 +180,7 @@ class PostTest extends TestCase
 
     function test_edit_put_invalid()
     {
+        User::factory(3)->create();
         Category::factory(10)->create();
         Post::factory(1)->create();
         $post = Post::first();
@@ -209,6 +212,7 @@ class PostTest extends TestCase
 
     function test_edit_destroy()
     {
+        User::factory(3)->create();
         Category::factory(10)->create();
         Post::factory(1)->create();
         $post = Post::first();
