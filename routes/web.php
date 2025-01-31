@@ -30,6 +30,9 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', UserAccessDashbo
         'user' => App\Http\Controllers\Dashboard\UserController::class,
     ]);
 
+    // upload ckeditor
+    Route::post('post/upload/ckeditor', [App\Http\Controllers\Dashboard\PostController::class, 'uploadCKEditor'])->name('post.upload.ckeditor');
+
     // roles - permissions
     Route::post('role/assign/permission/{role}', [App\View\Components\Dashboard\role\permission\Manage::class, 'handle'])->name('role.assign.permission');
     Route::delete('role/delete/permission/{role}', [App\View\Components\Dashboard\role\permission\Manage::class, 'delete'])->name('role.delete.permission');

@@ -9,7 +9,7 @@ use App\Http\Requests\Post\StoreRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
-
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
@@ -31,7 +31,7 @@ class PostController extends Controller
     public function create()
     {
 
-        if(!auth()->user()->hasPermissionTo('editor.post.create')){
+        if (!auth()->user()->hasPermissionTo('editor.post.create')) {
             return abort(403);
         }
 
@@ -48,7 +48,7 @@ class PostController extends Controller
     public function store(StoreRequest $request)
     {
 
-        if(!auth()->user()->hasPermissionTo('editor.post.create')){
+        if (!auth()->user()->hasPermissionTo('editor.post.create')) {
             return abort(403);
         }
 
@@ -73,7 +73,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
 
-        if(!auth()->user()->hasPermissionTo('editor.post.update')){
+        if (!auth()->user()->hasPermissionTo('editor.post.update')) {
             return abort(403);
         }
 
@@ -82,7 +82,7 @@ class PostController extends Controller
         // dd(Gate::none(['create','update'], $post));
         // dd(auth()->user()->can('create', $post));
         // dd(auth()->user()->cannot('create', $post));
-        
+
 
         // Gate::allowIf(fn(User $user) => $user->id < 0);
 
@@ -97,7 +97,7 @@ class PostController extends Controller
 
         $categories = Category::pluck('id', 'title');
         $tags = Tag::pluck('id', 'name');
-        return view('dashboard.post.edit', compact('categories', 'post','tags'));
+        return view('dashboard.post.edit', compact('categories', 'post', 'tags'));
     }
 
     /**
@@ -106,7 +106,7 @@ class PostController extends Controller
     public function update(PutRequest $request, Post $post)
     {
 
-        if(!auth()->user()->hasPermissionTo('editor.post.update')){
+        if (!auth()->user()->hasPermissionTo('editor.post.update')) {
             return abort(403);
         }
 
@@ -131,7 +131,7 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        if(!auth()->user()->hasPermissionTo('editor.post.destroy')){
+        if (!auth()->user()->hasPermissionTo('editor.post.destroy')) {
             return abort(403);
         }
 
@@ -140,5 +140,32 @@ class PostController extends Controller
         // }
         $post->delete();
         return to_route('post.index')->with('status', 'Post delete');
+    }
+
+    // upload
+
+    public function uploadCKEditor(Request $request)
+    {
+
+        if (!auth()->user()->hasPermissionTo('editor.post.update')) {
+            return response()->json(['error' => 'No tienes permiso, PAGAME'], 500);
+        }
+
+        $validator = validator()->make($request->all(), [
+            'upload' => 'required|mimes:jpeg,jpg,png|max:10240'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->first()], 500);
+        }
+
+        // image
+        // $filename = $request->upload->getClientOriginalName();
+        $filename = time() . '.' . $request->upload->extension();
+        $request->upload->move(public_path('uploads/posts'), $filename);
+
+        return response()->json(['url' => '/uploads/posts/' . $filename]);
+        // return response()->json(['url' => 'uploads/posts' . $filename]);
+        // image
     }
 }

@@ -4,7 +4,7 @@
 
     @include('dashboard.fragment._errors-form')
 
-   <form action="{{ route('post.store') }}" method="post">
+   <form id="myForm" action="{{ route('post.store') }}" method="post">
         @include('dashboard.post._form')
    </form>
 @endsection
